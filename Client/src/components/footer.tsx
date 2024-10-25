@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { AiOutlineMail } from "react-icons/ai";
 import {
   FaFacebookF,
@@ -22,22 +22,27 @@ const Footer = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
+        const baseUrl =
+          process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
         const response = await fetch(`${baseUrl}/api/products`);
         const data = await response.json();
 
-        console.log('Fetched Data:', data); // Check API response
+        console.log("Fetched Data:", data); // Check API response
 
         if (!Array.isArray(data.data)) {
           throw new Error("Unexpected API response structure");
         }
 
         // Extract unique categories from the products
-        const uniqueCategories = Array.from(
-          new Set(data.data.map((product: any) => product.productCategory || "Uncategorized"))
+        const uniqueCategories: string[] = Array.from(
+          new Set(
+            data.data.map(
+              (product: any) => product.productCategory || "Uncategorized"
+            )
+          )
         );
 
-        console.log('Unique Categories:', uniqueCategories); // Debug log to verify categories
+        console.log("Unique Categories:", uniqueCategories); // Debug log to verify categories
 
         setCategories(uniqueCategories); // Update state with unique categories
       } catch (error) {
@@ -129,7 +134,9 @@ const Footer = () => {
         </div>
 
         <div className="md:flex hidden flex-col items-center">
-          <h1 className="text-white text-lg w-[200px] font-medium">Other Companies</h1>
+          <h1 className="text-white text-lg w-[200px] font-medium">
+            Other Companies
+          </h1>
           <div>
             <img
               src="/footer/agridairy.png"

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useEffect, useState } from "react";
 import { PageInfo, Product } from "@/types/all-types"; // Adjust the import path accordingly
 import axios from "axios";
@@ -13,16 +13,16 @@ export default function RelatedProducts({ product }: { product: Product }) {
 
   useEffect(() => {
     fetchProducts();
-  }, [product.category]); // Fetch when the category changes
+  }, [product.productCategory]); // Fetch when the category changes
 
   async function fetchProducts() {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URI}/products?category=${product.category}&limit=${limit}&page=${page}`
+        `${process.env.NEXT_PUBLIC_BASE_URI}/products?category=${product.productCategory}&limit=${limit}&page=${page}`
       );
       if (res.status === 200) {
         let prods = res.data.products.filter(
-          (p: Product) => p._id !== product._id // Filter out the current product
+          (p: Product) => p.id !== product.id // Filter out the current product
         );
         if (prods.length === res.data.products.length) {
           prods.pop(); // Remove the last one if necessary
@@ -52,7 +52,7 @@ export default function RelatedProducts({ product }: { product: Product }) {
       )}
       <div className="flex max-w-[700px] gap-8 xl:px-20">
         {products.map((p) => (
-          <ProductCard key={p._id} product={p} />
+          <ProductCard key={p.id} product={p} />
         ))}
       </div>
       <p className="hidden">{pageInfo?.currentPage}</p>

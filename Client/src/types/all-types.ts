@@ -1,5 +1,5 @@
 interface Product {
-  id?:number
+  id?: number;
   pid: string;
   productTitle: string;
   productDescription: string;
@@ -8,12 +8,12 @@ interface Product {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
-  productCategory:string
-  productSubCategory:string
+  productCategory: string;
+  productSubCategory: string;
   locale: string;
-  documentId?:string
-  productDetail:string
-  isOnSale?:boolean
+  documentId?: string;
+  productDetail: string;
+  isOnSale?: boolean;
   productImage?: {
     id: number;
     alternativeText: string;
@@ -21,72 +21,75 @@ interface Product {
   };
 }
 
-  
-  type PageInfo = {
-    totalPages: number;
-    currentPage: number;
+type PageInfo = {
+  totalPages: number;
+  currentPage: number;
+};
+
+interface Project {
+  projId?: string;
+  projTitle: string;
+  projHeader: string;
+  projSubTitle: string;
+  projImage?: {
+    id: number;
+    alternativeText: string;
+    url: string;
   };
-  
-  interface Project {
-    projId?: string;
-    projTitle: string;
-    projHeader: string;
-    projSubTitle: string;
-    projImage?: {
-      id: number;
-      alternativeText: string;
-      url: string;
-    };
-    html: string;
-    projCategory: string;
-    documentId?:string
-    // createdAt?: string;
-    // updatedAt?: string;
+  html: string;
+  projCategory: string;
+  documentId?: string;
+  // createdAt?: string;
+  // updatedAt?: string;
+}
+
+type User = {
+  _id: string;
+  name: string;
+  email: string;
+  role: string;
+};
+
+type Comment = {
+  _id: string;
+  productId: string;
+  text: string;
+  email?: string;
+  name: string;
+  createdAt: string;
+  type: string;
+  isModerated: boolean;
+};
+
+type ServiceData = {
+  image?: string;
+  hero?: {
+    image: string;
+    heading: string;
   };
-  
-  type User = {
-    _id: string;
-    name: string;
-    email: string;
-    role: string;
+  name?: string;
+  serviceImage?: {
+    id: number;
+    alternativeText: string;
+    url: string;
   };
-  
-  type Comment = {
-    _id: string;
-    productId: string;
-    text: string;
-    email?: string;
-    name: string;
-    createdAt: string;
-    type: string;
-    isModerated: boolean;
+  documentId?: string;
+  heroImage?: {
+    id: number;
+    alternativeText: string;
+    url: string;
   };
-  
-  type ServiceData = {
-    name?:string
-    serviceImage?: {
-      id: number;
-      alternativeText: string;
-      url: string;
-    };
-    documentId?:string
-    heroImage?: {
-      id: number;
-      alternativeText: string;
-      url: string;
-    };
-      heroHeadings: string;
-      ctaPara:string
-      ctaText:string
-      ctaImage?: {
-        id: number;
-        alternativeText: string;
-        url: string;
-      };
-    content: string;
-    advertisement: string;
-    about: string;
+  heroHeadings?: string;
+  ctaPara?: string;
+  ctaText?: string;
+  ctaImage?: {
+    id: number;
+    alternativeText: string;
+    url: string;
   };
-  
-  export type { Product, User, Comment, Project, PageInfo, ServiceData };
-  
+  content?: string;
+  advertisement?: string;
+  about?: string;
+};
+
+export type { Product, User, Comment, Project, PageInfo, ServiceData };
