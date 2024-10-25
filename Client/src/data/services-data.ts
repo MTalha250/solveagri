@@ -1,0 +1,49 @@
+import { ServiceData } from "@/types/all-types"; // Adjust the import path as necessary
+
+export const ServicesData: { 
+  solveAgriAndDairyInstitute: ServiceData;
+  communityDevelopment: ServiceData;
+  advisoryServices: ServiceData;
+  agriBusiness: ServiceData;
+} = {
+  solveAgriAndDairyInstitute: {
+    image: "https://loremflickr.com/640/480/nature",
+    hero: {
+      image: "https://loremflickr.com/cache/resized/65535_52691101566_d5f69b5af1_h_1280_720_nofilter.jpg",
+      heading: "Solve Agri & Dairy Institute",
+    },
+    content: `<p>Welcome to our Community Development Projects section, where we demonstrate our dedication to fostering sustainable development in the livestock and agriculture sectors. At Solve Agri Pak Private Limited, we believe in the power of community engagement and collaboration to bring about positive change. Through our community projects in livestock and agriculture, we aim to uplift local communities, improve food security, and enhance livelihoods. By working closely with community members, local organizations, and stakeholders, we identify specific needs and develop initiatives that have a lasting impact. Our projects cover various areas, including livestock management, sustainable farming practices, value chain development, women's empowerment, and community engagement. </p>`,
+    advertisement: `<p><h2>Join Us in Building Resilient Communities!</h2><h3>Explore Our Community Development Programs</h3><ul><li>Tunnel Farming</li><li>Horticulture</li><li>Dairy Extension Course<ul><li>Module 1: Rural Sociology & Extension Services</li><li>Module 2: Animal Housing and Animal Nutrition</li><li>Module 3: Breeding/Fertility, Artificial Insemination, and Calf Rearing</li><li>Module 4: Animal Health and Farm Management</li></ul></li><li>Certificate on Large Scale Dairy Farm Management<ul><li>Module: Forage Production & Preservation, Animal Nutrition</li><li>Module: Breeding, Fertility Management, and Youngstock Rearing</li><li>Module: Bio-security, Disease Prevention, and Health Management</li><li>Module: Farm Economics, Farm Analysis, and HR Management</li></ul></li><li>Milk Hygiene and Quality Assurance</li><li>Milk Value Addition Course</li><li>Module 'Introduction to Modern Dairy Farm Management'</li><li>Module 'Applied Dairy Farm Management'</li><li>Livestock Emergency Preparedness Training</li><li>Dairy Nutrition & Feeding Management</li><li>Training on Livestock Emergency Guidelines and Standards - LEGS</li><li>Module on Commercial Dairy Farming</li><li>Small Holder Farmer Training Program</li><li>Course on 'Home Based Livestock Farming'</li><li>Establishing & Managing Commercial Dairy Farm</li><li>Feedlot Fattening Farm Feasibility, Construction & Mechanization</li><li>Procurement & Selection of Animals for Feedlot Fattening</li><li>Procurement & Selection of Animals for Backgrounding</li><li>Social Networking for Backgrounding</li><li>Commercial Goat and Sheep Farming</li><li>Customized Training Programs: The institute can design customized training programs based on specific needs and participant training assessments.</li></ul></p>`,
+    about: `<p>Explore our website to learn more about our ongoing and completed community development projects in livestock and agriculture. Together, let's build resilient communities, enhance food security, and create a brighter future for all through sustainable practices in livestock and agriculture.</p>`,
+  },
+  communityDevelopment: {
+    image: "https://loremflickr.com/640/480/nature",
+    hero: {
+      image: "https://loremflickr.com/cache/resized/65535_52691101566_d5f69b5af1_h_1280_720_nofilter.jpg",
+      heading: "Community Development",
+    },
+    content: `<h1>Sustainibility &endash;Your Goal; Our Value</h1><p>Social responsibility and sustainability are the two main value drivers of our organization. We provide an array of community development services to corporate organizations, development and donor agencies, as well as government authorities for capacity building, infrastructure & socio-economic development, and poverty alleviation programs.</p>`,
+    advertisement: `<p>In order to spread dairy farm knowledge to small farmers across Pakistan, Solve Agri Pak is acting on behalf of Tetra Pak Pakistan in developing 15 booklets, also recorded in video form for the electronic media, covering all aspects of dairy farming.</p><p>Let’s join hands for sustainable economy; <a href="https://solveagripak.com/contact/">Contact us</a> now!</p>`,
+    about: `<p>Currently, Solve Agri Pak is the executing partner for the community development project conceived by Tetra Pak Pakistan called “Dairy Hub” for its customers Engro Foods, Nestle and Haleeb Foods. The company is currently working closely with Tetra Pak Bangladesh on community development project for their customer PRAN. This project focuses on small farmers with small herd of buffalos and cows. A host of activities are covered under this project, including four months training of trainers (Agri Services personnel), training of small farmers, animal tagging, data collection and recording of key data to monitor progress of activities at Dairy Hub Area and many other activities.</p>`,
+  },
+  advisoryServices: {
+    image: "https://loremflickr.com/640/480/nature",
+    hero: {
+      image: "https://loremflickr.com/cache/resized/65535_52691101566_d5f69b5af1_h_1280_720_nofilter.jpg",
+      heading: "Advisory Services",
+    },
+    content: `<p>Welcome to Solve Agri Pak Private Limited, your trusted partner in optimizing livestock operations. Our dedicated team of experts specializes in herd management, nutrition, breeding strategies, animal health, facility design, and operational excellence. With our tailored solutions, we empower farmers of all scales to achieve success and maximize their productivity. </p>`,
+    advertisement: `<p>In order to spread dairy farm knowledge to small farmers across Pakistan, Solve Agri Pak is acting on behalf of Tetra Pak Pakistan in developing 15 booklets, also recorded in video form for the electronic media, covering all aspects of dairy farming.</p><p>Let’s join hands for sustainable economy; <a href="https://solveagripak.com/contact/">Contact us</a> now!</p>`,
+    about: `<p>Livestock Management: We provide training and support to farmers, equipping them with knowledge and skills in animal health, nutrition, breeding, and overall herd management. Our goal is to enhance livestock productivity and improve income opportunities. Sustainable Farming Practices: We promote sustainable techniques that minimize environmental impact and conserve natural resources. Through training in organic farming, efficient irrigation methods, soil conservation, and crop rotation, we help farmers adopt practices that improve productivity while preserving the environment. Value Chain Development: Our initiatives focus on helping farmers access markets and add value to their agricultural products. We offer capacity building, market linkages, and entrepreneurship training to enable farmers to develop value-added products, establish cooperatives, and navigate the supply chain effectively. Women's Empowerment: We prioritize gender equality and empower women in our projects. We provide specialized training and resources to women farmers, enabling them to actively participate in livestock and agriculture activities. Our aim is to promote women's access to land, financial services, and markets for more inclusive and equitable communities. Community Engagement: We foster community participation and ownership by involving community members in decision-making processes and supporting community-led initiatives. Through building strong networks and partnerships, we create an environment that empowers communities to drive their own development.</p>`,
+  },
+  agriBusiness: {
+    image: "https://loremflickr.com/640/480/nature",
+    hero: {
+      image: "https://loremflickr.com/cache/resized/65535_52691101566_d5f69b5af1_h_1280_720_nofilter.jpg",
+      heading: "Agricuture",
+    },
+    content: `<h2 id="dairy-farm-profitability-depends-on-agronomy">Dairy Farm Profitability Depends On Agronomy</h2><p>Agronomy plays a major role in dairy farming. Feed cost is the biggest expense center for any dairy farm with around 50% to 60% of the total expenses. In order to attain optimum profitability, for dairy farms, focus on agronomy is of prime importance. Solve Agri Pak provides consultation and services related to modern crop management techniques for the dairy farmsto grow their own fodder. Growing crops and preserving crops in the form of silage and hay are the main areas of expertise with Solve Agri Pak. Services include:</p><ul><li>Irrigation & Water Management</li><li>Crop Management</li><li>Harvest Management</li><li>Preservation of crop; silage making, hay making</li><li>Training of Human Resources on Crop Management</li><li>Silage & Hay Making on behalf of customers</li><li>Wheat Straw Enrichment</li></ul><p>Additionally Solve Agri Pak is selling <em>JF branded Brazilian maize harvesters which are the world's best quality harvesters in its class.</em></p>`,
+    advertisement: `<p>In order to spread dairy farm knowledge to small farmers across Pakistan, Solve Agri Pak is acting on behalf of Tetra Pak Pakistan in developing 15 booklets, also recorded in video form for the electronic media, covering all aspects of dairy farming.</p><p>Let’s join hands for sustainable economy; <a href="https://solveagripak.com/contact/">Contact us</a> now!</p>`,
+    about: `<p>In order to spread dairy farm knowledge to small farmers across Pakistan, Solve Agri Pak is acting on behalf of Tetra Pak Pakistan in developing 15 booklets, also recorded in video form for the electronic media, covering all aspects of dairy farming.</p><p>Let’s join hands for sustainable economy; <a href="https://solveagripak.com/contact/">Contact us</a> now!</p>`,
+  },
+};
