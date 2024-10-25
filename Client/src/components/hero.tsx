@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useState, useEffect } from "react";
@@ -18,7 +18,14 @@ const Hero = () => {
   const fetchHeroImages = async () => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/hero-images?populate[heroImages][fields][0]=url&populate[heroImages][fields][1]=alternativeText`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/hero-images?populate[heroImages][fields][0]=url&populate[heroImages][fields][1]=alternativeText`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_TOKEN}`,
+          },
+        }
       );
       const data = await res.json();
       const imageUrls = data.data[0]?.heroImages.map((imgObj: any) => {

@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
 import Link from "next/link"; // Import Next.js Link component
 import { useState, useEffect } from "react";
 import AnimateToView from "../AnimateToView";
 import { ServiceData } from "@/types/all-types";
-import qs from 'qs'; // Query string for URL construction
-import { ArrowUpRight } from 'lucide-react';
+import qs from "qs"; // Query string for URL construction
+import { ArrowUpRight } from "lucide-react";
 
 const ServiceCat = () => {
   const [services, setServices] = useState<ServiceData[]>([]); // State to store the services fetched from Strapi
@@ -15,7 +15,8 @@ const ServiceCat = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
+        const baseUrl =
+          process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
         const path = "/api/services";
 
         // Construct the query with 'populate' for fetching images
@@ -31,7 +32,13 @@ const ServiceCat = () => {
         });
 
         const url = `${baseUrl}${path}?${query}`;
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_TOKEN}`,
+          },
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch services");
@@ -59,7 +66,9 @@ const ServiceCat = () => {
   return (
     <div className="px-4 md:px-20 xl:px-40 md:py-20 py-10 w-full">
       <AnimateToView>
-        <h1 className="md:text-[40px] text-[30px] mb-3 text-DG">Our Services.</h1>
+        <h1 className="md:text-[40px] text-[30px] mb-3 text-DG">
+          Our Services.
+        </h1>
       </AnimateToView>
       <div className="flex flex-col gap-12 mt-5">
         <AnimateToView className="flex w-full gap-4">
@@ -78,7 +87,10 @@ const ServiceCat = () => {
         <div className="md:flex grid grid-cols-2 gap-4 flex-wrap md:gap-10">
           {services.length > 0 ? (
             services.map((service, index) => (
-              <div key={index} className="relative md:max-w-[200px] flex-col h-48">
+              <div
+                key={index}
+                className="relative md:max-w-[200px] flex-col h-48"
+              >
                 <Link href={`/${service.documentId}`}>
                   <div className="w-full h-full rounded-lg overflow-hidden group cursor-pointer relative">
                     <img
@@ -105,7 +117,7 @@ const ServiceCat = () => {
             href="/x63rxb4y5tkeht4vsyymwf3a"
             className="border flex gap-2 border-green-600 text-white bg-[#000C36] py-3 px-12 rounded-full hover:bg-[#a8cf45] hover:text-white transition duration-300"
           >
-            Learn More <ArrowUpRight/>
+            Learn More <ArrowUpRight />
           </Link>
         </div>
       </div>

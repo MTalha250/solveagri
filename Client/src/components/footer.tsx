@@ -24,7 +24,13 @@ const Footer = () => {
       try {
         const baseUrl =
           process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
-        const response = await fetch(`${baseUrl}/api/products`);
+        const response = await fetch(`${baseUrl}/api/products`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_TOKEN}`,
+          },
+        });
         const data = await response.json();
 
         console.log("Fetched Data:", data); // Check API response
