@@ -107,7 +107,7 @@ const ProductCat = () => {
                         )
                       }
                       className="w-full h-48 rounded-lg overflow-hidden object-cover hover:scale-110 transition-transform duration-300"
-                      src={`${process.env.NEXT_PUBLIC_API_URL}${product.productImage?.url}`}
+                      src={product.productImage?.url}
                       alt={
                         product.productImage?.alternativeText ||
                         product.productTitle

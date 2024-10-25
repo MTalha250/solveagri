@@ -29,7 +29,8 @@ const Hero = () => {
       );
       const data = await res.json();
       const imageUrls = data.data[0]?.heroImages.map((imgObj: any) => {
-        return `${process.env.NEXT_PUBLIC_API_URL}${imgObj.url}`;
+        console.log(imgObj);
+        return imgObj.url;
       });
 
       setImages(imageUrls || []);

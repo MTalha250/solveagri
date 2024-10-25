@@ -103,7 +103,7 @@ const ProjectsCat = () => {
                         {/* Add consistent width and height to the container */}
                         <div className="w-[350px] h-[250px] md:w-[450px] md:h-[300px] overflow-hidden">
                           <img
-                            src={`${process.env.NEXT_PUBLIC_API_URL}${project.projImage?.url}`}
+                            src={project.projImage?.url}
                             alt={
                               project.projImage?.alternativeText ||
                               project.projTitle

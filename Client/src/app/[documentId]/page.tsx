@@ -105,7 +105,7 @@ export default function ServicePage() {
           <>
             <div className="h-screen flex items-center justify-center relative w-full overflow-hidden">
               <img
-                src={`${process.env.NEXT_PUBLIC_API_URL}${service?.heroImage?.url}`}
+                src={service?.heroImage?.url}
                 alt={
                   service?.heroImage?.alternativeText || service?.heroHeadings
                 }
@@ -119,7 +119,7 @@ export default function ServicePage() {
             <div className="px-4 md:px-20 xl:px-40 w-full flex flex-col gap-20">
               <div className="w-full flex gap-20">
                 <img
-                  src={`${process.env.NEXT_PUBLIC_API_URL}${service?.serviceImage?.url}`}
+                  src={service?.serviceImage?.url}
                   alt={
                     service?.serviceImage?.alternativeText ||
                     service?.heroHeadings
@@ -154,7 +154,7 @@ export default function ServicePage() {
                     onClick={() => router.push(`/${service.documentId}`)}
                   >
                     <img
-                      src={`${process.env.NEXT_PUBLIC_API_URL}${service.serviceImage?.url}`}
+                      src={service.serviceImage?.url}
                       alt={
                         service.serviceImage?.alternativeText || service.name
                       }
@@ -170,7 +170,7 @@ export default function ServicePage() {
 
             <div className="h-screen flex items-center justify-center relative w-full overflow-hidden">
               <img
-                src={`${process.env.NEXT_PUBLIC_API_URL}${service?.ctaImage?.url}`}
+                src={service?.ctaImage?.url}
                 alt={service?.ctaImage?.alternativeText || service?.ctaText}
                 className="object-cover w-[90%] h-[80%]"
               />

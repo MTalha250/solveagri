@@ -3,9 +3,7 @@ import { Product } from "@/types/all-types";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai"; // Star icons
 
 export default function ProductCard({ product }: { product: Product }) {
-  const imageUrl = `${
-    process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337"
-  }${product.productImage?.url || "/default-image.jpg"}`; // Adjusted for Strapi image URL
+  const imageUrl = product.productImage?.url || "/default-image.jpg"; // Adjusted for Strapi image URL
 
   // Simulating a random rating between 1 and 5 (since Strapi doesn’t provide it)
   const rating = Math.floor(Math.random() * 5) + 1;

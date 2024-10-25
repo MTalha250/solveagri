@@ -77,7 +77,7 @@ export default function ProjectPage() {
 
         <div className="w-full grid-cols-1 rounded-3xl max-h-[600px] overflow-hidden gap-x-8 gap-y-12">
           <img
-            src={`${process.env.NEXT_PUBLIC_API_URL}${project.projImage?.url}`} // Assuming productImage is always present
+            src={project.projImage?.url} // Assuming productImage is always present
             alt={project.projImage?.alternativeText || project.projTitle}
             className="w-full object-cover object-center"
           />

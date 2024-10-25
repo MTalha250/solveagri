@@ -139,7 +139,7 @@ export default function ProductPage() {
           <div className="w-full flex flex-col lg:flex-row gap-12 lg:gap-20">
             <div className="w-full md:w-1/2">
               <img
-                src={`${process.env.NEXT_PUBLIC_API_URL}${product.productImage?.url}`}
+                src={product.productImage?.url}
                 alt={
                   product.productImage?.alternativeText || product.productTitle
                 }
@@ -183,7 +183,7 @@ export default function ProductPage() {
                     <div className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition">
                       <Link href={`/product/${relatedProduct.documentId}`}>
                         <img
-                          src={`${process.env.NEXT_PUBLIC_API_URL}${relatedProduct.productImage?.url}`}
+                          src={relatedProduct.productImage?.url}
                           alt={
                             relatedProduct.productImage?.alternativeText ||
                             relatedProduct.productTitle
