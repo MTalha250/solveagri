@@ -1,4 +1,4 @@
-'use client'; // Marks this component as a Client Component
+"use client"; // Marks this component as a Client Component
 
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -12,7 +12,9 @@ import Navbar from "@/components/navbar";
 //   limit: number;
 // }
 
-async function getProjects(page: number): Promise<{ project: Project[]; total: number }> {
+async function getProjects(
+  page: number
+): Promise<{ project: Project[]; total: number }> {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
   const path = "/api/projects";
 
@@ -31,10 +33,18 @@ async function getProjects(page: number): Promise<{ project: Project[]; total: n
     },
   });
 
-  const res = await fetch(url.toString());
-  console.log(res)
+  const res = await fetch(url.toString(), {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_TOKEN}`,
+    },
+  });
+  console.log(res);
 
-  if (!res.ok){ throw new Error("Failed to fetch products")};
+  if (!res.ok) {
+    throw new Error("Failed to fetch products");
+  }
 
   const data = await res.json();
   const total = data.meta.pagination.total; // Get total number of products
@@ -52,7 +62,7 @@ export default function ProjectsPage() {
   const fetchProjects = async (page: number) => {
     setLoading(true);
     const { project, total } = await getProjects(page);
-    console.log(project)
+    console.log(project);
     setProjects(project);
     setTotal(total);
     setLoading(false);
@@ -68,20 +78,19 @@ export default function ProjectsPage() {
   return (
     <div>
       <div className="fixed w-full" style={{ zIndex: "999" }}>
-      <Navbar/>
-          
-      </div> 
-    <div className="w-full my-40 px-4 md:px-20 xl:px-40 grid gap-x-8 gap-y-16 grid-cols-1 md:grid-cols-3">
-      {loading && <div>Loading projects...</div>}
-      {!loading && project.length === 0 && (
-        <div className="text-2xl font-medium">No projects found</div>
-      )}
-      {project.map((project:Project) => (
-        <ProjectCard key={project.projId} project={project} />
-      ))}
-    </div>
-    {/* Pagination controls */}
-    <div className="flex justify-center mt-8">
+        <Navbar />
+      </div>
+      <div className="w-full my-40 px-4 md:px-20 xl:px-40 grid gap-x-8 gap-y-16 grid-cols-1 md:grid-cols-3">
+        {loading && <div>Loading projects...</div>}
+        {!loading && project.length === 0 && (
+          <div className="text-2xl font-medium">No projects found</div>
+        )}
+        {project.map((project: Project) => (
+          <ProjectCard key={project.projId} project={project} />
+        ))}
+      </div>
+      {/* Pagination controls */}
+      <div className="flex justify-center mt-8">
         <button
           onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
           disabled={page === 1}
@@ -90,7 +99,9 @@ export default function ProjectsPage() {
           Previous
         </button>
         <button
-          onClick={() => setPage((prev) => (prev < totalPages ? prev + 1 : prev))}
+          onClick={() =>
+            setPage((prev) => (prev < totalPages ? prev + 1 : prev))
+          }
           disabled={page === totalPages}
           className="px-4 py-2 bg-gray-300  hover:bg-LG rounded hover:"
         >

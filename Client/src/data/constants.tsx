@@ -1,59 +1,59 @@
-'use client';
-import { useState, useEffect } from 'react';
+"use client";
+import { useState, useEffect } from "react";
 
 export const navLinks = [
   {
-    id: 'home',
-    title: 'Home',
-    slug: '/',
+    id: "home",
+    title: "Home",
+    slug: "/",
   },
   {
-    id: 'partners',
-    title: 'Our Partners',
-    slug: '/partners',
+    id: "partners",
+    title: "Our Partners",
+    slug: "/partners",
   },
   {
-    id: 'services',
-    title: 'Services',
-    slug: '/services',
+    id: "services",
+    title: "Services",
+    slug: "/services",
     children: [
       {
-        id: 'service-1',
-        title: 'Service 1',
-        slug: '/services/service-1',
+        id: "service-1",
+        title: "Service 1",
+        slug: "/services/service-1",
       },
       {
-        id: 'service-2',
-        title: 'Service 2',
-        slug: '/services/service-2',
+        id: "service-2",
+        title: "Service 2",
+        slug: "/services/service-2",
       },
       {
-        id: 'service-3',
-        title: 'Service 3',
-        slug: '/services/service-3',
+        id: "service-3",
+        title: "Service 3",
+        slug: "/services/service-3",
       },
       {
-        id: 'service-4',
-        title: 'Service 4',
-        slug: '/services/service-4',
+        id: "service-4",
+        title: "Service 4",
+        slug: "/services/service-4",
       },
     ],
   },
   {
-    id: 'products',
-    title: 'Products',
-    slug: '/products',
+    id: "products",
+    title: "Products",
+    slug: "/products",
     children: [], // Initially empty, will be populated from API
   },
   {
-    id: 'about',
-    title: 'About',
-    slug: '/about',
+    id: "about",
+    title: "About",
+    slug: "/about",
   },
   {
-    id: 'contact',
-    title: 'Contact',
-    slug: '/contact',
+    id: "contact",
+    title: "Contact",
+    slug: "/contact",
   },
 ];
 
@@ -64,12 +64,19 @@ export default function useNavLinks() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:1337';
-        const response = await fetch(`${baseUrl}/api/products`);
+        const baseUrl =
+          process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
+        const response = await fetch(`${baseUrl}/api/products`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_TOKEN}`,
+          },
+        });
         const data = await response.json();
 
         if (!Array.isArray(data.data)) {
-          throw new Error('Unexpected API response structure');
+          throw new Error("Unexpected API response structure");
         }
 
         const products = data.data.map((product: any) => ({
@@ -81,13 +88,11 @@ export default function useNavLinks() {
         // Update 'products' in navLinks
         setLinks((prevLinks) =>
           prevLinks.map((link) =>
-            link.id === 'products'
-              ? { ...link, children: products }
-              : link
+            link.id === "products" ? { ...link, children: products } : link
           )
         );
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error("Error fetching products:", error);
       }
     };
 

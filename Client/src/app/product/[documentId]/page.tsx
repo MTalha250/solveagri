@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useState, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
@@ -17,7 +17,9 @@ export default function ProductPage() {
   const router = useRouter();
   const sliderRef = useRef<Slider | null>(null); // Ref for the slider
 
-  const productId = Array.isArray(params?.documentId) ? params.documentId[0] : params?.documentId;
+  const productId = Array.isArray(params?.documentId)
+    ? params.documentId[0]
+    : params?.documentId;
   const [product, setProduct] = useState<Product | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
 
@@ -29,7 +31,8 @@ export default function ProductPage() {
 
   async function fetchProduct(id: string) {
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
+      const baseUrl =
+        process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
       const path = `/api/products/${id}`;
 
       const url = new URL(path, baseUrl);
@@ -41,7 +44,13 @@ export default function ProductPage() {
         },
       });
 
-      const res = await fetch(url.toString());
+      const res = await fetch(url.toString(), {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_TOKEN}`,
+        },
+      });
 
       if (!res.ok) {
         throw new Error("Failed to fetch product");
@@ -59,9 +68,13 @@ export default function ProductPage() {
     }
   }
 
-  async function fetchRelatedProducts(category: string, currentProductId: string) {
+  async function fetchRelatedProducts(
+    category: string,
+    currentProductId: string
+  ) {
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
+      const baseUrl =
+        process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
       const path = `/api/products`;
 
       const url = new URL(path, baseUrl);
@@ -74,7 +87,13 @@ export default function ProductPage() {
         },
       });
 
-      const res = await fetch(url.toString());
+      const res = await fetch(url.toString(), {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_TOKEN}`,
+        },
+      });
 
       if (!res.ok) {
         throw new Error("Failed to fetch related products");
@@ -121,7 +140,9 @@ export default function ProductPage() {
             <div className="w-full md:w-1/2">
               <img
                 src={`${process.env.NEXT_PUBLIC_API_URL}${product.productImage?.url}`}
-                alt={product.productImage?.alternativeText || product.productTitle}
+                alt={
+                  product.productImage?.alternativeText || product.productTitle
+                }
                 className="w-full h-auto object-cover rounded-lg shadow-lg"
               />
             </div>
@@ -131,7 +152,9 @@ export default function ProductPage() {
                 {`${product.productCategory} > ${product.productSubCategory}`}
               </p>
 
-              <h2 className="text-3xl font-bold mt-4">{product.productTitle}</h2>
+              <h2 className="text-3xl font-bold mt-4">
+                {product.productTitle}
+              </h2>
 
               <p className="prose mt-6">{product.productDescription}</p>
 
@@ -140,7 +163,8 @@ export default function ProductPage() {
                   <span className="font-semibold">SKU:</span> {product.SKU}
                 </p>
                 <p className="text-lg mt-2">
-                  <span className="font-semibold">Price:</span> ${product.productPrice}
+                  <span className="font-semibold">Price:</span> $
+                  {product.productPrice}
                 </p>
               </div>
             </div>
@@ -160,7 +184,10 @@ export default function ProductPage() {
                       <Link href={`/product/${relatedProduct.documentId}`}>
                         <img
                           src={`${process.env.NEXT_PUBLIC_API_URL}${relatedProduct.productImage?.url}`}
-                          alt={relatedProduct.productImage?.alternativeText || relatedProduct.productTitle}
+                          alt={
+                            relatedProduct.productImage?.alternativeText ||
+                            relatedProduct.productTitle
+                          }
                           className="w-full h-40 object-contain rounded-md"
                         />
                         <h4 className="mt-4 font-semibold text-lg">

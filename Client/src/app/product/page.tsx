@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useEffect, useState } from "react";
 import qs from "qs";
 
@@ -9,7 +9,9 @@ import { Product } from "@/types/all-types";
 import Navbar from "@/components/navbar";
 
 // Fetch products with populated images from Strapi
-async function getProducts(page: number): Promise<{ products: Product[]; total: number }> {
+async function getProducts(
+  page: number
+): Promise<{ products: Product[]; total: number }> {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
   const path = "/api/products";
 
@@ -28,7 +30,13 @@ async function getProducts(page: number): Promise<{ products: Product[]; total: 
     },
   });
 
-  const res = await fetch(url.toString());
+  const res = await fetch(url.toString(), {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_TOKEN}`,
+    },
+  });
 
   if (!res.ok) throw new Error("Failed to fetch products");
 
@@ -48,7 +56,7 @@ export default function ProductsPage() {
   const fetchProducts = async (page: number) => {
     setLoading(true);
     const { products, total } = await getProducts(page);
-    console.log(products)
+    console.log(products);
     setProducts(products);
     setTotal(total);
     setLoading(false);
@@ -63,48 +71,49 @@ export default function ProductsPage() {
 
   return (
     <>
-    <div className="fixed w-full" style={{ zIndex: "999" }}>
-      <Navbar/>
-          
-      </div> 
-    <div className="mt-36 text-center">
-      <h1 className="text-3xl font-bold mb-8">Our Products</h1>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center">
-        {loading ? (
-          <Skeleton count={1} height={500} width={500} />
-        ) : (
-          products.map((product: Product) => (
-            <ProductCard key={product.id} product={product} />
-          ))
-        )}
+      <div className="fixed w-full" style={{ zIndex: "999" }}>
+        <Navbar />
       </div>
+      <div className="mt-36 text-center">
+        <h1 className="text-3xl font-bold mb-8">Our Products</h1>
 
-      {/* Pagination controls */}
-      <div className="flex justify-center mt-8">
-        <button
-          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-          disabled={page === 1}
-          className="px-4 py-2 bg-LG hover:bg-gray-300 rounded mr-2"
-        >
-          Previous
-        </button>
-        <button
-          onClick={() => setPage((prev) => (prev < totalPages ? prev + 1 : prev))}
-          disabled={page === totalPages}
-          className="px-4 py-2 bg-gray-300  hover:bg-LG rounded hover:"
-        >
-          Next
-        </button>
-      </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center">
+          {loading ? (
+            <Skeleton count={1} height={500} width={500} />
+          ) : (
+            products.map((product: Product) => (
+              <ProductCard key={product.id} product={product} />
+            ))
+          )}
+        </div>
 
-      {/* Page number display */}
-      <div className="mt-4 text-center">
-        <p>
-          Page {page} of {totalPages}
-        </p>
+        {/* Pagination controls */}
+        <div className="flex justify-center mt-8">
+          <button
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            disabled={page === 1}
+            className="px-4 py-2 bg-LG hover:bg-gray-300 rounded mr-2"
+          >
+            Previous
+          </button>
+          <button
+            onClick={() =>
+              setPage((prev) => (prev < totalPages ? prev + 1 : prev))
+            }
+            disabled={page === totalPages}
+            className="px-4 py-2 bg-gray-300  hover:bg-LG rounded hover:"
+          >
+            Next
+          </button>
+        </div>
+
+        {/* Page number display */}
+        <div className="mt-4 text-center">
+          <p>
+            Page {page} of {totalPages}
+          </p>
+        </div>
       </div>
-    </div>
     </>
   );
 }

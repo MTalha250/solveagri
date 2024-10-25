@@ -1,4 +1,4 @@
-'use client'; // Ensure this component is client-side only
+"use client"; // Ensure this component is client-side only
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -12,7 +12,7 @@ import { ServiceData, Product } from "@/types/all-types"; // Updated with Produc
 import { v4 as uuidv4 } from "uuid"; // For generating unique IDs
 import Accordion from "./accordian";
 import LoadingButton from "./Button/LoadingButton";
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from "lucide-react";
 
 // Define the type for navigation links
 type LinkWithChildren = {
@@ -35,11 +35,18 @@ const Navbar = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
+        const baseUrl =
+          process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
         const path = "/api/services";
 
         const url = new URL(path, baseUrl);
-        const response = await fetch(url.toString());
+        const response = await fetch(url.toString(), {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_TOKEN}`,
+          },
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch services");
         }
@@ -86,11 +93,18 @@ const Navbar = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
+        const baseUrl =
+          process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
         const path = "/api/products";
 
         const url = new URL(path, baseUrl);
-        const response = await fetch(url.toString());
+        const response = await fetch(url.toString(), {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_TOKEN}`,
+          },
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch products");
         }
@@ -123,7 +137,9 @@ const Navbar = () => {
         // Update the 'all-products' link in navLinks
         setNavLinks((prevNavLinks) =>
           prevNavLinks.map((link) =>
-            link.id === "all-products" ? { ...link, children: productCategories } : link
+            link.id === "all-products"
+              ? { ...link, children: productCategories }
+              : link
           )
         );
       } catch (error: any) {
@@ -220,12 +236,12 @@ const Navbar = () => {
 
   return (
     <header
-    className={`${
-      isVisible
-        ? "bg-white text-black border-gray-100 border rounded-full"
-        : "pt-5 text-white"
-    } mt-5 mx-5 rounded-full flex flex-col transition duration-200 ease-in-out z-50`}
-  >
+      className={`${
+        isVisible
+          ? "bg-white text-black border-gray-100 border rounded-full"
+          : "pt-5 text-white"
+      } mt-5 mx-5 rounded-full flex flex-col transition duration-200 ease-in-out z-50`}
+    >
       <nav className="w-full text-black flex py-3 items-center justify-between border-gray-200 px-4 xl:px-16">
         {/* Logo */}
         <Link href="/" className="min-w-max">
@@ -244,14 +260,21 @@ const Navbar = () => {
                   className={`${
                     isActive
                       ? "text-green-500"
-                      : `${isVisible ? "text-black" : "text-black opacity-85"} hover:text-green-500`
+                      : `${
+                          isVisible ? "text-black" : "text-black opacity-85"
+                        } hover:text-green-500`
                   } relative p-3 text-xs lg:text-sm whitespace-nowrap tracking-wide font-poppins font-medium cursor-pointer transition-all nav-links`}
                   onMouseEnter={() => handleMouseOver(link.id)}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <Link href={link.href} className="text-black uppercase flex items-center font-semibold text-sm py-2">
+                  <Link
+                    href={link.href}
+                    className="text-black uppercase flex items-center font-semibold text-sm py-2"
+                  >
                     <span className="text-xs">{link.title}</span>
-                    {link.children && <IoMdArrowDropdown size={16} className="ml-1" />}
+                    {link.children && (
+                      <IoMdArrowDropdown size={16} className="ml-1" />
+                    )}
                   </Link>
                   {link.children && <LinkDropdown link={link} />}
                 </div>
@@ -260,9 +283,14 @@ const Navbar = () => {
           </ul>
         </div>
 
-              <Link href="/contactus" passHref>
-                <button className="hidden lg:flex w-[178px] text-[16px] items-center justify-center bg-white p-2 rounded-full font-semibold">Book a Meeting <span className="ml-2"><ArrowUpRight size={18}/></span> </button>
-              </Link>
+        <Link href="/contactus" passHref>
+          <button className="hidden lg:flex w-[178px] text-[16px] items-center justify-center bg-white p-2 rounded-full font-semibold">
+            Book a Meeting{" "}
+            <span className="ml-2">
+              <ArrowUpRight size={18} />
+            </span>{" "}
+          </button>
+        </Link>
 
         {/* Mobile Navigation */}
         <MobileNav navLinks={navLinks} />
@@ -305,7 +333,9 @@ const MobileNav = ({ navLinks }: { navLinks: LinkWithChildren[] }) => {
     <div>
       <RiMenu3Fill
         size={24}
-        className={`md:hidden ${!isVisible ? "text-black" : "text-black"} cursor-pointer`}
+        className={`md:hidden ${
+          !isVisible ? "text-black" : "text-black"
+        } cursor-pointer`}
         onClick={() => setIsOpen(true)}
       />
       <AnimatePresence>
@@ -330,17 +360,25 @@ const MobileNav = ({ navLinks }: { navLinks: LinkWithChildren[] }) => {
               >
                 {navLinks.map((link, i) => (
                   <div key={link.id} className="flex flex-col w-full mb-2">
-                    {i !== 0 && <div className="h-[2px] bg-gray-200 w-1/2 self-center my-2" />}
+                    {i !== 0 && (
+                      <div className="h-[2px] bg-gray-200 w-1/2 self-center my-2" />
+                    )}
                     {link.children && link.children.length > 0 ? (
                       <Accordion
                         title={
-                          <Link onClick={onBeforeNavigate} href={link.href} className="hover:text-green-500 text-gray-600 transition-all flex justify-between items-center">
+                          <Link
+                            onClick={onBeforeNavigate}
+                            href={link.href}
+                            className="hover:text-green-500 text-gray-600 transition-all flex justify-between items-center"
+                          >
                             {link.title}
                             <IoMdArrowDropdown size={16} />
                           </Link>
                         }
                         isOpen={openIndex === i}
-                        onClick={() => (openIndex === i ? setOpenIndex(null) : setOpenIndex(i))}
+                        onClick={() =>
+                          openIndex === i ? setOpenIndex(null) : setOpenIndex(i)
+                        }
                       >
                         <div className="ml-4 mt-2">
                           {link.children.map((c) => (
@@ -356,7 +394,12 @@ const MobileNav = ({ navLinks }: { navLinks: LinkWithChildren[] }) => {
                         </div>
                       </Accordion>
                     ) : (
-                      <Link onClick={onBeforeNavigate} key={link.id} href={link.href} className="w-full flex items-center text-gray-700 hover:text-green-500 transition-all">
+                      <Link
+                        onClick={onBeforeNavigate}
+                        key={link.id}
+                        href={link.href}
+                        className="w-full flex items-center text-gray-700 hover:text-green-500 transition-all"
+                      >
                         {link.title}
                       </Link>
                     )}
@@ -364,7 +407,11 @@ const MobileNav = ({ navLinks }: { navLinks: LinkWithChildren[] }) => {
                 ))}
               </motion.nav>
             </div>
-            <Link href="/" onClick={onBeforeNavigate} className="min-w-max self-center mt-8 grayscale">
+            <Link
+              href="/"
+              onClick={onBeforeNavigate}
+              className="min-w-max self-center mt-8 grayscale"
+            >
               <img src="/logo.png" alt="logo" className="h-24" />
             </Link>
           </motion.div>
