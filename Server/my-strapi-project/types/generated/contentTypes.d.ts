@@ -485,6 +485,37 @@ export interface PluginUsersPermissionsUser
   };
 }
 
+export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
+  collectionName: 'categories';
+  info: {
+    singularName: 'category';
+    pluralName: 'categories';
+    displayName: 'Category';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Title: Schema.Attribute.String;
+    Image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    categoryId: Schema.Attribute.UID;
+    products: Schema.Attribute.Relation<'oneToMany', 'api::product.product'>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::category.category'
+    >;
+  };
+}
+
 export interface ApiContactContact extends Struct.SingleTypeSchema {
   collectionName: 'contacts';
   info: {
@@ -565,13 +596,12 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     productPrice: Schema.Attribute.Integer;
     pid: Schema.Attribute.UID;
     SKU: Schema.Attribute.String;
-    productCategory: Schema.Attribute.String;
-    productSubCategory: Schema.Attribute.String;
     isOnSale: Schema.Attribute.Boolean;
     productImage: Schema.Attribute.Media<
       'images' | 'files' | 'videos' | 'audios'
     >;
     productDetail: Schema.Attribute.Text;
+    category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -603,9 +633,12 @@ export interface ApiProjectProject extends Struct.CollectionTypeSchema {
     projSubTitle: Schema.Attribute.String;
     projHeader: Schema.Attribute.String;
     projId: Schema.Attribute.UID;
-    projCategory: Schema.Attribute.String;
     projImage: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     html: Schema.Attribute.Text;
+    category: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::project-category.project-category'
+    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -617,6 +650,37 @@ export interface ApiProjectProject extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::project.project'
+    >;
+  };
+}
+
+export interface ApiProjectCategoryProjectCategory
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'project_categories';
+  info: {
+    singularName: 'project-category';
+    pluralName: 'project-categories';
+    displayName: 'ProjectCategory';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Title: Schema.Attribute.String;
+    Image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    projCatId: Schema.Attribute.UID;
+    projects: Schema.Attribute.Relation<'oneToMany', 'api::project.project'>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::project-category.project-category'
     >;
   };
 }
@@ -1035,10 +1099,12 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::category.category': ApiCategoryCategory;
       'api::contact.contact': ApiContactContact;
       'api::hero-image.hero-image': ApiHeroImageHeroImage;
       'api::product.product': ApiProductProduct;
       'api::project.project': ApiProjectProject;
+      'api::project-category.project-category': ApiProjectCategoryProjectCategory;
       'api::service.service': ApiServiceService;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;

@@ -27,12 +27,6 @@
     "SKU": {
       "type": "string"
     },
-    "productCategory": {
-      "type": "string"
-    },
-    "productSubCategory": {
-      "type": "string"
-    },
     "isOnSale": {
       "type": "boolean"
     },
@@ -49,6 +43,12 @@
     },
     "productDetail": {
       "type": "text"
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "products"
     }
   }
 }

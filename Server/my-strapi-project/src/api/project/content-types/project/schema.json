@@ -24,9 +24,6 @@
     "projId": {
       "type": "uid"
     },
-    "projCategory": {
-      "type": "string"
-    },
     "projImage": {
       "type": "media",
       "multiple": false,
@@ -40,6 +37,12 @@
     },
     "html": {
       "type": "text"
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::project-category.project-category",
+      "inversedBy": "projects"
     }
   }
 }

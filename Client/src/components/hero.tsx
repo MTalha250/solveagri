@@ -90,7 +90,7 @@ const Hero = () => {
           }}
         >
           {/* Slider */}
-          {images.length > 0 ? (
+          {images.length > 0 && (
             <Slider {...settings}>
               {images.map((img, i) => (
                 <div
@@ -109,10 +109,7 @@ const Hero = () => {
                 </div>
               ))}
             </Slider>
-          ) : (
-            <p>Loading images...</p>
           )}
-
           {/* Animated Text */}
           <motion.div
             className="absolute bg-black bg-opacity-30 top-0 left-0 w-full h-full flex px-8 md:px-20 xl:px-40"

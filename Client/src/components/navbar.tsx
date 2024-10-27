@@ -213,26 +213,26 @@ const Navbar = () => {
     );
   };
 
-  // Show loading or error states
-  if (isLoading) {
-    return (
-      <header className="mt-5 mx-5 rounded-full flex flex-col transition duration-200 ease-in-out z-50">
-        <div className="w-full flex justify-center py-4">
-          <p>Loading...</p>
-        </div>
-      </header>
-    );
-  }
+  // // Show loading or error states
+  // if (isLoading) {
+  //   return (
+  //     <header className="mt-5 mx-5 rounded-full flex flex-col transition duration-200 ease-in-out z-50">
+  //       <div className="w-full flex justify-center py-4">
+  //         <p>Loading...</p>
+  //       </div>
+  //     </header>
+  //   );
+  // }
 
-  if (error) {
-    return (
-      <header className="mt-5 mx-5 rounded-full flex flex-col transition duration-200 ease-in-out z-50">
-        <div className="w-full flex justify-center py-4">
-          <p>Error: {error}</p>
-        </div>
-      </header>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <header className="mt-5 mx-5 rounded-full flex flex-col transition duration-200 ease-in-out z-50">
+  //       <div className="w-full flex justify-center py-4">
+  //         <p>Error: {error}</p>
+  //       </div>
+  //     </header>
+  //   );
+  // }
 
   return (
     <header
@@ -285,7 +285,7 @@ const Navbar = () => {
 
         <Link href="/contactus" passHref>
           <button className="hidden lg:flex w-[178px] text-[16px] items-center justify-center bg-white p-2 rounded-full font-semibold">
-            Book a Meeting{" "}
+            Contact Us
             <span className="ml-2">
               <ArrowUpRight size={18} />
             </span>{" "}

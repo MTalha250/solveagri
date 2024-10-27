@@ -57,14 +57,9 @@ const ContactComp: React.FC<ContactCompProps> = ({ title, desc }) => {
   };
 
   return (
-    <div
-      className="w-full h-full mt-9 md:mt-0  flex items-center justify-end px-10 "
-
-    >
-
-      <div className="flex flex-col md:flex-row items-center md:items-end bg-white rounded-lg shadow-lg p-8 md:p-12 gap-12 w-full md:w-1/2">
+    <div className="w-full h-full mt-9 md:mt-0  flex items-center justify-end px-10">
+      <div className="flex flex-col md:flex-row items-center md:items-end bg-white rounded-lg shadow-lg p-8 md:p-12 gap-12 w-full">
         {/* Left Section */}
-       
 
         {/* Right Section - Form */}
         <form onSubmit={handleSubmit} className=" w-full">
