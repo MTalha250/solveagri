@@ -148,9 +148,9 @@ export default function ProductPage() {
             </div>
 
             <div className="w-full md:w-1/2">
-              <p className="text-sm font-semibold text-gray-500 italic">
+              {/* <p className="text-sm font-semibold text-gray-500 italic">
                 {`${product.productCategory} > ${product.productSubCategory}`}
-              </p>
+              </p> */}
 
               <h2 className="text-3xl font-bold mt-4">
                 {product.productTitle}

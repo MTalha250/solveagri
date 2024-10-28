@@ -8,11 +8,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import { IoMdArrowDropdown } from "react-icons/io";
 import throttle from "lodash.throttle";
 import { navLinks as staticNavLinks } from "@/data/navs";
-import { ServiceData, Product } from "@/types/all-types"; // Updated with Product
+import { Category, ProjectCategory, ServiceData } from "@/types/all-types"; // Import Category, ProjectCategory, and ServiceData
 import { v4 as uuidv4 } from "uuid"; // For generating unique IDs
 import Accordion from "./accordian";
 import LoadingButton from "./Button/LoadingButton";
 import { ArrowUpRight } from "lucide-react";
+import axios from "axios"; // Import axios
 
 // Define the type for navigation links
 type LinkWithChildren = {
@@ -31,6 +32,104 @@ const Navbar = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Fetch categories from Strapi API
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const baseUrl =
+          process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
+        const path = "/api/categories";
+
+        const url = new URL(path, baseUrl);
+        const response = await axios.get(url.toString(), {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_TOKEN}`,
+          },
+        });
+
+        const data = response.data;
+
+        if (!Array.isArray(data.data)) {
+          throw new Error("Unexpected API response structure");
+        }
+
+        // Map categories for dropdown
+        const categories = data.data.map((category: Category) => ({
+          id: uuidv4(), // Generate a unique ID
+          title: category.Title,
+          href: `/product/category/${category.categoryId}`,
+        }));
+
+        // Update the 'all-products' link in navLinks
+        setNavLinks((prevNavLinks) =>
+          prevNavLinks.map((link) =>
+            link.id === "all-products"
+              ? { ...link, children: categories }
+              : link
+          )
+        );
+        setIsLoading(false);
+      } catch (error: any) {
+        console.error("Error fetching categories:", error);
+        setError(error.message);
+        setIsLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  // Fetch project categories from Strapi API
+  useEffect(() => {
+    const fetchProjectCategories = async () => {
+      try {
+        const baseUrl =
+          process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
+        const path = "/api/project-categories";
+
+        const url = new URL(path, baseUrl);
+        const response = await axios.get(url.toString(), {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_TOKEN}`,
+          },
+        });
+
+        const data = response.data;
+
+        if (!Array.isArray(data.data)) {
+          throw new Error("Unexpected API response structure");
+        }
+
+        // Map project categories for dropdown
+        const projectCategories = data.data.map(
+          (projectCategory: ProjectCategory) => ({
+            id: uuidv4(), // Generate a unique ID
+            title: projectCategory.Title,
+            href: `/projects/category/${projectCategory.projCatId}`,
+          })
+        );
+
+        // Update the 'projects' link in navLinks
+        setNavLinks((prevNavLinks) =>
+          prevNavLinks.map((link) =>
+            link.id === "projects"
+              ? { ...link, children: projectCategories }
+              : link
+          )
+        );
+        setIsLoading(false);
+      } catch (error: any) {
+        console.error("Error fetching project categories:", error);
+        setError(error.message);
+        setIsLoading(false);
+      }
+    };
+
+    fetchProjectCategories();
+  }, []);
+
   // Fetch services from Strapi API
   useEffect(() => {
     const fetchServices = async () => {
@@ -40,41 +139,31 @@ const Navbar = () => {
         const path = "/api/services";
 
         const url = new URL(path, baseUrl);
-        const response = await fetch(url.toString(), {
-          method: "GET",
+        const response = await axios.get(url.toString(), {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_TOKEN}`,
           },
         });
-        if (!response.ok) {
-          throw new Error("Failed to fetch services");
-        }
-        const data = await response.json();
+
+        const data = response.data;
 
         if (!Array.isArray(data.data)) {
           throw new Error("Unexpected API response structure");
         }
 
+        // Map services for dropdown
         const services = data.data.map((service: ServiceData) => ({
-          id: uuidv4(), // Generate a unique ID
-          title: service.name,
+          id: uuidv4(),
+          title: service.name || "Unnamed Service",
           href: `/${service.documentId}`,
         }));
 
-        if (services.length === 0) {
-          throw new Error("No services available");
-        }
-
-        // Update the 'services' link in navLinks
+        // Update the 'services' link in navLinks with children only, making main link non-clickable
         setNavLinks((prevNavLinks) =>
           prevNavLinks.map((link) =>
             link.id === "services"
-              ? {
-                  ...link,
-                  children: services,
-                  href: services[0].href, // Set href to first service's href
-                }
+              ? { ...link, children: services, href: "#" }
               : link
           )
         );
@@ -88,95 +177,6 @@ const Navbar = () => {
 
     fetchServices();
   }, []);
-
-  // Fetch products and categorize them by productCategory
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const baseUrl =
-          process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
-        const path = "/api/products";
-
-        const url = new URL(path, baseUrl);
-        const response = await fetch(url.toString(), {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_TOKEN}`,
-          },
-        });
-        if (!response.ok) {
-          throw new Error("Failed to fetch products");
-        }
-        const data = await response.json();
-
-        if (!Array.isArray(data.data)) {
-          throw new Error("Unexpected API response structure");
-        }
-
-        // Group products by category
-        const categories = data.data.reduce((acc: any, product: Product) => {
-          if (!acc[product.productCategory]) {
-            acc[product.productCategory] = [];
-          }
-          acc[product.productCategory].push({
-            id: uuidv4(), // Generate a unique ID for each child
-            title: product.productTitle,
-            href: `/product/category/${product.productCategory}`, // Correct link
-          });
-          return acc;
-        }, {});
-
-        const productCategories = Object.keys(categories).map((category) => ({
-          id: uuidv4(), // Generate a unique ID for each category
-          title: category,
-          href: `/product/category/${category}`, // Redirect to category
-          children: categories[category],
-        }));
-
-        // Update the 'all-products' link in navLinks
-        setNavLinks((prevNavLinks) =>
-          prevNavLinks.map((link) =>
-            link.id === "all-products"
-              ? { ...link, children: productCategories }
-              : link
-          )
-        );
-      } catch (error: any) {
-        console.error("Error fetching products:", error);
-        setError(error.message);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
-  // Set the current pathname
-  useEffect(() => {
-    setPathname(window.location.pathname);
-  }, []);
-
-  // Handle scroll to show/hide navbar with throttling
-  const handleScroll = () => {
-    const currentScrollPos = window.scrollY;
-    if (pathname !== "/") {
-      setIsVisible(true);
-      return;
-    }
-    setIsVisible(!(lastScrollPos > currentScrollPos && currentScrollPos < 100));
-    setLastScrollPos(currentScrollPos);
-  };
-
-  useEffect(() => {
-    const throttledHandleScroll = throttle(handleScroll, 200); // 200ms throttle
-
-    window.addEventListener("scroll", throttledHandleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", throttledHandleScroll);
-      throttledHandleScroll.cancel();
-    };
-  }, [lastScrollPos, pathname]);
 
   // Handle hover events for dropdowns
   const handleMouseOver = (linkId: string) => {
@@ -213,35 +213,9 @@ const Navbar = () => {
     );
   };
 
-  // // Show loading or error states
-  // if (isLoading) {
-  //   return (
-  //     <header className="mt-5 mx-5 rounded-full flex flex-col transition duration-200 ease-in-out z-50">
-  //       <div className="w-full flex justify-center py-4">
-  //         <p>Loading...</p>
-  //       </div>
-  //     </header>
-  //   );
-  // }
-
-  // if (error) {
-  //   return (
-  //     <header className="mt-5 mx-5 rounded-full flex flex-col transition duration-200 ease-in-out z-50">
-  //       <div className="w-full flex justify-center py-4">
-  //         <p>Error: {error}</p>
-  //       </div>
-  //     </header>
-  //   );
-  // }
-
+  // Navbar rendering
   return (
-    <header
-      className={`${
-        isVisible
-          ? "bg-white text-black border-gray-100 border rounded-full"
-          : "pt-5 text-white"
-      } mt-5 mx-5 rounded-full flex flex-col transition duration-200 ease-in-out z-50`}
-    >
+    <header className="bg-white text-black border-gray-100 border rounded-full mt-5 mx-5 rounded-full flex flex-col transition duration-200 ease-in-out z-50">
       <nav className="w-full text-black flex py-3 items-center justify-between border-gray-200 px-4 xl:px-16">
         {/* Logo */}
         <Link href="/" className="min-w-max">
@@ -267,15 +241,12 @@ const Navbar = () => {
                   onMouseEnter={() => handleMouseOver(link.id)}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <Link
-                    href={link.href}
-                    className="text-black uppercase flex items-center font-semibold text-sm py-2"
-                  >
+                  <span className="text-black uppercase flex items-center font-semibold text-sm py-2 cursor-default">
                     <span className="text-xs">{link.title}</span>
                     {link.children && (
                       <IoMdArrowDropdown size={16} className="ml-1" />
                     )}
-                  </Link>
+                  </span>
                   {link.children && <LinkDropdown link={link} />}
                 </div>
               );
@@ -284,7 +255,7 @@ const Navbar = () => {
         </div>
 
         <Link href="/contactus" passHref>
-          <button className="hidden lg:flex w-[178px] text-[16px] items-center justify-center bg-white p-2 rounded-full font-semibold">
+          <button className="hidden lg:flex w-[178px] text-[16px] items-center justify-center bg-green-600 text-white p-2 rounded-full font-semibold">
             Contact Us
             <span className="ml-2">
               <ArrowUpRight size={18} />
@@ -299,7 +270,7 @@ const Navbar = () => {
   );
 };
 
-// Nested MobileNav Component
+// Nested MobileNav Component (unchanged)
 const MobileNav = ({ navLinks }: { navLinks: LinkWithChildren[] }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -309,33 +280,11 @@ const MobileNav = ({ navLinks }: { navLinks: LinkWithChildren[] }) => {
     setIsOpen(false);
   };
 
-  const [isVisible, setIsVisible] = useState(false);
-  const [lastScrollPos, setLastScrollPos] = useState(0);
-
-  const handleScroll = () => {
-    const currentScrollPos = window.scrollY;
-    setIsVisible(!(lastScrollPos > currentScrollPos && currentScrollPos < 100));
-    setLastScrollPos(currentScrollPos);
-  };
-
-  useEffect(() => {
-    const throttledHandleScroll = throttle(handleScroll, 200); // 200ms throttle
-
-    window.addEventListener("scroll", throttledHandleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", throttledHandleScroll);
-      throttledHandleScroll.cancel();
-    };
-  }, [lastScrollPos]);
-
   return (
-    <div>
+    <div className="md:hidden">
       <RiMenu3Fill
         size={24}
-        className={`md:hidden ${
-          !isVisible ? "text-black" : "text-black"
-        } cursor-pointer`}
+        className="text-black cursor-pointer"
         onClick={() => setIsOpen(true)}
       />
       <AnimatePresence>
@@ -345,7 +294,7 @@ const MobileNav = ({ navLinks }: { navLinks: LinkWithChildren[] }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="w-screen absolute h-screen flex flex-col overflow-y-scroll top-0 left-0 bg-white  border-b-[2px] shadow-xl border-gray-400 p-4 transition-all"
+            className="w-screen absolute h-screen flex flex-col overflow-y-scroll top-0 left-0 bg-white border-b-[2px] shadow-xl border-gray-400 p-4 transition-all"
           >
             <div className="flex flex-col w-full">
               <AiOutlineClose
@@ -366,14 +315,10 @@ const MobileNav = ({ navLinks }: { navLinks: LinkWithChildren[] }) => {
                     {link.children && link.children.length > 0 ? (
                       <Accordion
                         title={
-                          <Link
-                            onClick={onBeforeNavigate}
-                            href={link.href}
-                            className="hover:text-green-500 text-gray-600 transition-all flex justify-between items-center"
-                          >
+                          <span className="hover:text-green-500 text-gray-600 transition-all flex justify-between items-center">
                             {link.title}
                             <IoMdArrowDropdown size={16} />
-                          </Link>
+                          </span>
                         }
                         isOpen={openIndex === i}
                         onClick={() =>
@@ -407,13 +352,6 @@ const MobileNav = ({ navLinks }: { navLinks: LinkWithChildren[] }) => {
                 ))}
               </motion.nav>
             </div>
-            <Link
-              href="/"
-              onClick={onBeforeNavigate}
-              className="min-w-max self-center mt-8 grayscale"
-            >
-              <img src="/logo.png" alt="logo" className="h-24" />
-            </Link>
           </motion.div>
         )}
       </AnimatePresence>

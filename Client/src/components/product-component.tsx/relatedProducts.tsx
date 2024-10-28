@@ -13,12 +13,12 @@ export default function RelatedProducts({ product }: { product: Product }) {
 
   useEffect(() => {
     fetchProducts();
-  }, [product.productCategory]); // Fetch when the category changes
+  }, [product.category]); // Fetch when the category changes
 
   async function fetchProducts() {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URI}/products?category=${product.productCategory}&limit=${limit}&page=${page}`
+        `${process.env.NEXT_PUBLIC_BASE_URI}/products?category=${product.category.Title}&limit=${limit}&page=${page}`
       );
       if (res.status === 200) {
         let prods = res.data.products.filter(

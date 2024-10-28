@@ -33,8 +33,6 @@ const Footer = () => {
         });
         const data = await response.json();
 
-        console.log("Fetched Data:", data); // Check API response
-
         if (!Array.isArray(data.data)) {
           throw new Error("Unexpected API response structure");
         }

@@ -8,8 +8,7 @@ interface Product {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
-  productCategory: string;
-  productSubCategory: string;
+  category: Category;
   locale: string;
   documentId?: string;
   productDetail: string;
@@ -19,6 +18,18 @@ interface Product {
     alternativeText: string;
     url: string;
   };
+}
+
+interface Category {
+  id: number;
+  Title: string;
+  Image: {
+    id: number;
+    alternativeText: string;
+    url: string;
+  };
+  categoryId: string;
+  documentId?: string;
 }
 
 type PageInfo = {
@@ -37,10 +48,22 @@ interface Project {
     url: string;
   };
   html: string;
-  projCategory: string;
+  category: ProjectCategory;
   documentId?: string;
   // createdAt?: string;
   // updatedAt?: string;
+}
+
+interface ProjectCategory {
+  id: number;
+  Title: string;
+  Image: {
+    id: number;
+    alternativeText: string;
+    url: string;
+  };
+  projCatId: string;
+  documentId?: string;
 }
 
 type User = {
@@ -92,4 +115,13 @@ type ServiceData = {
   about?: string;
 };
 
-export type { Product, User, Comment, Project, PageInfo, ServiceData };
+export type {
+  Product,
+  User,
+  Comment,
+  Project,
+  PageInfo,
+  ServiceData,
+  Category,
+  ProjectCategory,
+};

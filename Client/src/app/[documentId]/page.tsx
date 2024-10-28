@@ -98,12 +98,13 @@ export default function ServicePage() {
         <Navbar />
       </div>
 
-      <main className="flex flex-col gap-20 mb-40">
+      <main className="flex flex-col gap-20 mb-40 bg-gray-50">
         {error ? (
           <p className="text-red-500">Error: {error}</p>
         ) : (
           <>
             <div className="h-screen flex items-center justify-center relative w-full overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-b from-black opacity-50"></div>
               <img
                 src={service?.heroImage?.url}
                 alt={
@@ -111,46 +112,49 @@ export default function ServicePage() {
                 }
                 className="object-cover w-full h-full"
               />
-              <h1 className="absolute top-[50%] left-1/2 -translate-x-1/2 text-2xl md:text-5xl text-white font-semibold tracking-wide">
+              <h1 className="absolute top-[50%] left-1/2 -translate-x-1/2 text-3xl md:text-5xl text-white font-bold tracking-wide drop-shadow-md px-4 text-center">
                 {service?.heroHeadings}
               </h1>
             </div>
 
             <div className="px-4 md:px-20 xl:px-40 w-full flex flex-col gap-20">
-              <div className="w-full flex gap-20">
+              <div className="flex flex-col lg:flex-row gap-10 items-center">
                 <img
                   src={service?.serviceImage?.url}
                   alt={
                     service?.serviceImage?.alternativeText ||
                     service?.heroHeadings
                   }
-                  className="hidden lg:block w-[50%]"
+                  className="hidden lg:block w-[50%] rounded-lg shadow-lg"
                 />
-                <div className="flex flex-col items-center justify-center gap-8">
+                <div className="flex flex-col gap-8 text-gray-800 lg:w-[50%]">
                   <section
+                    className="text-lg leading-relaxed"
                     dangerouslySetInnerHTML={{ __html: service?.content || "" }}
                   />
                   <section
+                    className="text-lg leading-relaxed"
                     dangerouslySetInnerHTML={{
                       __html: service?.advertisement || "",
                     }}
                   />
                   <section
+                    className="text-lg leading-relaxed"
                     dangerouslySetInnerHTML={{ __html: service?.about || "" }}
                   />
                 </div>
               </div>
             </div>
 
-            <section className="mt-20">
-              <h2 className="text-center text-3xl font-bold mb-8">
+            <section className="mt-20 px-4">
+              <h2 className="text-center text-3xl font-bold mb-10 text-gray-800">
                 Our Services
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-8 relative">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 px-4 md:px-20">
                 {services.map((service, index) => (
                   <div
                     key={service.documentId}
-                    className={`bg-white w-[80%] md:w-[60%] shadow-md rounded-lg hover:shadow-lg transition cursor-pointer random-position-${index}`}
+                    className="bg-white w-full max-w-[300px] shadow-lg rounded-lg hover:shadow-xl transition-all transform hover:-translate-y-1 duration-300 cursor-pointer overflow-hidden"
                     onClick={() => router.push(`/${service.documentId}`)}
                   >
                     <img
@@ -158,9 +162,9 @@ export default function ServicePage() {
                       alt={
                         service.serviceImage?.alternativeText || service.name
                       }
-                      className="w-full h-40 object-cover rounded-t-md"
+                      className="w-full h-40 object-cover"
                     />
-                    <h3 className="text-lg text-center font-semibold mt-4 mb-4">
+                    <h3 className="text-xl text-center font-semibold mt-4 mb-4 px-4">
                       {service.name}
                     </h3>
                   </div>
@@ -169,22 +173,24 @@ export default function ServicePage() {
             </section>
 
             <div className="h-screen flex items-center justify-center relative w-full overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-b from-black opacity-50"></div>
               <img
                 src={service?.ctaImage?.url}
                 alt={service?.ctaImage?.alternativeText || service?.ctaText}
-                className="object-cover w-[90%] h-[80%]"
+                className="object-cover w-[90%] h-[80%] rounded-lg shadow-lg"
               />
-              <h1 className="absolute top-[50%] left-1/2 -translate-x-1/2 text-2xl md:text-5xl text-white font-semibold">
-                {service?.ctaText}
-              </h1>
-              <p className="absolute top-[70%] left-1/2 -translate-x-1/2 text-white font-semibold">
-                {service?.ctaPara}
-              </p>
-              <a href="/contactus">
-                <button className="absolute top-[78%] left-[50%] bg-LG p-2 rounded-xl">
+              <div className="absolute text-center text-white font-semibold drop-shadow-lg">
+                <h1 className="text-3xl md:text-5xl mb-4">
+                  {service?.ctaText}
+                </h1>
+                <p className="text-lg md:text-xl mb-8">{service?.ctaPara}</p>
+                <Link
+                  href="/contactus"
+                  className="bg-green-500 text-white px-6 py-3 rounded-full shadow-lg hover:bg-green-600 transition-transform transform hover:scale-105"
+                >
                   Get Started
-                </button>
-              </a>
+                </Link>
+              </div>
             </div>
           </>
         )}

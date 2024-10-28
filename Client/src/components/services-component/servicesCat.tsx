@@ -74,33 +74,31 @@ const ServiceCat = () => {
         <AnimateToView className="flex w-full gap-4">
           <div className="h-[1px] ml-[-30px] mt-3 w-40 bg-DG" />
           <p className="text-DG md:text-xl font-light">
-            We are committed to offering dependable, high-quality solutions,
-            services, and development projects that cater to all your livestock
-            and dairy needs, regardless of the size of your operations. Our
-            comprehensive range includes personalized solutions, expert
-            services, and training programs for sustainable milk and meat
-            production, empowering farmers, value chain partners, and processors
-            to thrive and maximize their profits.
+            Our commitment is to provide dependable, high-quality product
+            categories that address every facet of your livestock and dairy
+            needs, no matter the scale of your operation. Our extensive
+            selection includes specialized products, innovative equipment, and
+            tailored solutions crafted for efficient livestock management and
+            enhanced productivity. From nutritional supplements to advanced
+            farming tools, we empower farmers, suppliers, and processors to
+            optimize their processes and boost profitability across the board.
           </p>
         </AnimateToView>
 
-        <div className="md:flex grid grid-cols-2 gap-4 flex-wrap md:gap-10">
+        <div className="grid  grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-10">
           {services.length > 0 ? (
             services.map((service, index) => (
-              <div
-                key={index}
-                className="relative md:max-w-[200px] flex-col h-48"
-              >
+              <div key={index} className="relative flex-col">
                 <Link href={`/${service.documentId}`}>
                   <div className="w-full h-full rounded-lg overflow-hidden group cursor-pointer relative">
                     <img
-                      src={service.heroImage?.url}
+                      src={service.serviceImage?.url}
                       alt={service.heroImage?.alternativeText || service.name}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                     />
                     {/* Title Overlay */}
                     <div className="absolute inset-0 bg-black bg-opacity-40 flex items-end p-3">
-                      <h1 className="text-white text-lg">{service.name}</h1>
+                      <h1 className="text-white text-xl">{service.name}</h1>
                     </div>
                   </div>
                 </Link>

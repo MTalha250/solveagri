@@ -34,7 +34,7 @@ export default function ProductCard({ product }: { product: Product }) {
           {product.productTitle}
         </h4>
         <p className="text-sm text-gray-500">
-          {product.productCategory || "Category"}
+          {product.category.Title || "Category"}
         </p>
 
         {/* Price and Rating */}
